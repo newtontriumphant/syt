@@ -29,7 +29,7 @@ Linux: `sudo apt install ffmpeg`
 Step 1: Open your terminal and clone this repository locally:
 
 ```bash
-git clone http://github.com/newtontriumphant/syt
+git clone https://github.com/newtontriumphant/syt
 ```
 
 Step 2: In your terminal, change to the folder you just cloned:

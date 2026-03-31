@@ -10,6 +10,7 @@ import subprocess
 import argparse
 import platform
 from pathlib import Path
+from urllib.parse import parse_qsl, urlencode, urlparse, urlunparse
 
 __version__ = "1.0.1"
 
@@ -155,7 +156,13 @@ def is_music(link_type):
     )
 
 def strip_last_param(url):
-    return re.sub(r'[&?]list=[^&]*', '', url)
+    parsed = urlparse(url)
+    if not parsed.query:
+        return url
+
+    # Drop the playlist context parameter without corrupting query separators.
+    filtered_query = [(k, v) for k, v in parse_qsl(parsed.query, keep_blank_values=True) if k.lower() != "list"]
+    return urlunparse(parsed._replace(query=urlencode(filtered_query, doseq=True)))
 
 # factory defaults cuz im so funny, ts took like an hour to consolidate
 FACTORY_DEFAULTS = {
